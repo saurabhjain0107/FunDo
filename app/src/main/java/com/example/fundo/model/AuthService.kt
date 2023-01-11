@@ -99,37 +99,6 @@ class AuthService {
     fun userNotes(notes: Notes, listener: (AuthListener) -> Unit) {
 
     }
-
-//    private fun storeData() {
-//
-//        storageReference = FirebaseDatabase.getInstance().getReference("Users/"+auth.currentUser?.uid)
-//        storageReference.setValue("Hello")
-//
-//    }
-
-//    private fun storeData(user: User) {
-//
-//
-//        val database = Firebase.database
-//        val myRef = database.getReference("user")
-//
-//        myRef.child(user.email.toString()).setValue("Hello, World!")
-//
-//        myRef.addValueEventListener(object: ValueEventListener {
-//
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                val value = snapshot.getValue<String>()
-//                Log.d(ContentValues.TAG, "Value is: " + value)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-//            }
-//        })
-//
-//    }
 }
 
 

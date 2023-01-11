@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fundo.R
+import com.example.fundo.model.Notes
 
-class RecyclerNoteAdapter(private val noteList: HashMap<String, String>) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
+class RecyclerNoteAdapter(private val noteList: List<Notes>) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val title:TextView = itemView.findViewById(R.id.titleCard)
         val subTitle:TextView = itemView.findViewById(R.id.SubtitleCard)
         val note:TextView = itemView.findViewById(R.id.noteCard)
-
 
     }
 

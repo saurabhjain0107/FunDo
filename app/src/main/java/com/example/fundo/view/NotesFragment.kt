@@ -24,10 +24,6 @@ class NotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
-//        val layout: View = inflater.inflate(R.layout.fragment_notes, container, false)
-//        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         binding = FragmentNotesBinding.inflate(inflater)
 
         binding.addNote.setOnClickListener {

@@ -48,7 +48,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="1"
-                        android:background="@drawable/search" />
+                        android:background="@drawable/ic_baseline_search_24" />
 
                     <ImageView
                         android:id="@+id/profile_image"
@@ -57,7 +57,7 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/person" />
+                        android:background="@drawable/ic_baseline_person_pin_24" />
 
                 </LinearLayout>
             </Toolbar>
