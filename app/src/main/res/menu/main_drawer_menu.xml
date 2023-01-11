@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<group android:checkableBehavior="single">
+
+
+    <item android:id="@+id/side_note"
+        android:icon="@drawable/ic_baseline_note_24"
+        android:title="Notes"/>
+    <item android:id="@+id/Reminders"
+        android:icon="@drawable/ic_baseline_volume_up_24"
+        android:title="Reminders"/>
+    <item android:id="@+id/delete"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="Delete"/>
+
+</group>
+</menu>

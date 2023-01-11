@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">FunDo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="registration">Registration</string>
+    <string name="userid">UserId</string>
+    <string name="firstname">FirstName</string>
+    <string name="enter_your_first_name">Enter your first name</string>
+    <string name="lastname">LastName</string>
+    <string name="enter_last_name">enter last name</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="already_register_login">Already Register? login</string>
+    <string name="registration_using">Registration using</string>
+    <string name="login">Login</string>
+    <string name="username">UserName</string>
+    <string name="new_user_sign_up_here">New User? Sign up here</string>
+    <string name="or_sign_up_using">Or sign up using</string>
+    <string name="open">Open </string>
+    <string name="close">Close </string>
+    <string name="title">Title</string>
+</resources>
