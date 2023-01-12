@@ -46,8 +46,6 @@ class AuthService {
 
     fun loadAllData(uid: String) {
 
-
-
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser?.uid.toString()
         val docRef = databaseReference.collection("User").document(uid)

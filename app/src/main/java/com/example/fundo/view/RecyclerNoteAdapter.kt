@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fundo.R
 import com.example.fundo.model.Notes
 
-class RecyclerNoteAdapter(private val noteList: List<Notes>) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
+class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -19,17 +19,15 @@ class RecyclerNoteAdapter(private val noteList: List<Notes>) : RecyclerView.Adap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-     val view:View = LayoutInflater.from(parent.context).inflate(R.layout.notes_card,parent,false)
-       val viewHolder = ViewHolder(view)
-        return viewHolder
-
-
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.notes_card, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text.get(position)
-        holder.subTitle.text.get(position)
-        holder.note.text.get(position)
+        holder.title.text= noteList[position].title
+        holder.subTitle.text = noteList[position].subTitle
+        holder.note.text= noteList[position].notes
 
     }
 

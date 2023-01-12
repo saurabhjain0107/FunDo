@@ -13,9 +13,8 @@ import com.example.fundo.databinding.ActivityHomePageBinding
 import com.example.fundo.model.Notes
 
 class HomePage : AppCompatActivity() {
-
-//    val noteList = ArrayList<Notes>()
     lateinit var binding : ActivityHomePageBinding
+
 
     lateinit var toggle: ActionBarDrawerToggle
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,17 +30,14 @@ class HomePage : AppCompatActivity() {
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val notesObjects : MutableList<Notes> = ArrayList()
+        notesObjects.add(Notes(title = Notes().title, subTitle = Notes().subTitle, notes = Notes().notes))
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerNote)
 
         recyclerview.layoutManager = LinearLayoutManager(this)
-        val note = Notes()
-        val notesObjects: MutableList<Notes> = mutableListOf<Notes>()
-
-        notesObjects.add(Notes(title = note.title, subTitle = note.subTitle, notes = note.notes))
 
         val adapter = RecyclerNoteAdapter(notesObjects)
         recyclerview.adapter = adapter
-
 
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.fragment_profile)
@@ -49,7 +45,6 @@ class HomePage : AppCompatActivity() {
         binding.profileImage.setOnClickListener {
             dialog.show()
         }
-
 
         binding.floatingBtn.setOnClickListener {
 
@@ -59,3 +54,4 @@ class HomePage : AppCompatActivity() {
         }
     }
 }
+

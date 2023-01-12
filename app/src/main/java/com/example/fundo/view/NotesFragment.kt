@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fundo.R
 import com.example.fundo.databinding.FragmentNotesBinding
 import com.example.fundo.model.Notes
@@ -18,7 +19,7 @@ class NotesFragment : Fragment() {
     private var auth: FirebaseAuth = Firebase.auth
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    lateinit var binding : FragmentNotesBinding
+    lateinit var binding: FragmentNotesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,37 +34,35 @@ class NotesFragment : Fragment() {
             val subtitle = binding.subTitle.text.toString()
             val note = binding.notes.text.toString()
 
-            var notes = Notes(id = "",title = title, subTitle = subtitle, notes = note)
+            var notes = Notes(id = "", title = title, subTitle = subtitle, notes = note)
 
             if (!note.equals("")) {
 
                 val uid = auth.currentUser?.uid.toString()
-                val docRef = databaseReference.collection("User").document(uid).collection("Notes").document()
+                val docRef = databaseReference.collection("User").document(uid).collection("Notes")
+                    .document()
                 notes.id = docRef.id
                 docRef.get().addOnCompleteListener {
-                    if(it.isSuccessful){
+                    if (it.isSuccessful) {
 
-                        var userNotes : HashMap<String, String> = HashMap<String, String> ()
 
-                        userNotes.put("title",notes.title)
-                        userNotes.put("subTitle",notes.subTitle)
-                        userNotes.put("notes",notes.notes)
+                        val arrayList = ArrayList<Notes>()
+                        arrayList.add(notes)
 
-                        docRef.set(userNotes)
-                        Toast.makeText(requireContext(),"note saved",Toast.LENGTH_SHORT).show()
-                        val intent =  Intent(requireContext(),HomePage::class.java)
+                        Toast.makeText(requireContext(), "note saved", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), HomePage::class.java)
                         startActivity(intent)
                     }
                 }
 
             } else {
 
-                Toast.makeText(requireContext(),"Please enter note",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please enter note", Toast.LENGTH_SHORT).show()
             }
 
         }
         binding.dismiss.setOnClickListener {
-            val intent =  Intent(requireContext(),HomePage::class.java)
+            val intent = Intent(requireContext(), HomePage::class.java)
             startActivity(intent)
         }
 
