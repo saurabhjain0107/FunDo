@@ -14,9 +14,6 @@ import com.example.fundo.model.Notes
 
 class HomePage : AppCompatActivity() {
     lateinit var binding : ActivityHomePageBinding
-
-
-    lateinit var toggle: ActionBarDrawerToggle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

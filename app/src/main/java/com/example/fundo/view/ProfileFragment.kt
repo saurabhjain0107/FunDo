@@ -8,6 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.example.fundo.R
 import com.example.fundo.databinding.FragmentProfileBinding
@@ -23,9 +27,9 @@ class ProfileFragment :Fragment() {
     private var auth: FirebaseAuth = Firebase.auth
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var storage: FirebaseStorage = FirebaseStorage.getInstance()
-    private lateinit var selectedImg : Uri
+    private lateinit var selectedImg: Uri
 
-    lateinit var binding : FragmentProfileBinding
+    lateinit var binding: FragmentProfileBinding
 
 
     override fun onCreateView(
@@ -34,18 +38,31 @@ class ProfileFragment :Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        binding = FragmentProfileBinding.inflate(inflater,container,false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
 
 
-            val intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
-//            intent.type = "image"
-            startActivityForResult(intent,1)
+        val intent = Intent()
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.type = "image/*"
+        startActivityForResult(intent, 1)
+
+        binding.logout.setOnClickListener {
+           val intent = Intent(requireContext(),LoginFragment::class.java)
+            startActivity(intent)
+        }
 
 
-
-         var user = readProfileData()
+        var user = readProfileData()
         binding.firstname.text = user.firstName
+        binding.lastname.text = user.lastName
+        binding.email.text = user.email
+
+//        binding.userImg.setOnClickListener {
+//            val photoPicker = Intent(Intent.ACTION_PICK)
+//            photoPicker.type = "image/*"
+//            activityResultLauncher.launch(photoPicker)
+//        }
+
 
         return binding.root
 
@@ -61,6 +78,7 @@ class ProfileFragment :Fragment() {
             }
         }
     }
+
 
     fun readProfileData():User {
 

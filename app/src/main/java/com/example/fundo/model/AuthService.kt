@@ -27,22 +27,20 @@ class AuthService {
     private lateinit var storageReference: FirebaseStorage
 
 
-
-
-    fun userLogin(user: User,listener: (AuthListener) -> Unit){
-        auth.signInWithEmailAndPassword(user.email,user.password).addOnCompleteListener { task ->
+    fun userLogin(user: User, listener: (AuthListener) -> Unit) {
+        auth.signInWithEmailAndPassword(user.email, user.password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
 
-                listener(AuthListener(true,"Login successful"))
+                listener(AuthListener(true, "Login successful"))
 
             } else {
 
-                listener(AuthListener(false,"Login Failed"))
+                listener(AuthListener(false, "Login Failed"))
             }
 
         }
 
-     }
+    }
 
     fun loadAllData(uid: String) {
 
@@ -50,7 +48,7 @@ class AuthService {
         val uid = auth.currentUser?.uid.toString()
         val docRef = databaseReference.collection("User").document(uid)
         docRef.get().addOnCompleteListener {
-            if(it.isSuccessful){
+            if (it.isSuccessful) {
 
                 val user = User(it.result.getString("FirstName").toString())
             }
@@ -58,13 +56,13 @@ class AuthService {
 
     }
 
-    fun userRegister(user: User,listener: (AuthListener) -> Unit )  {
+    fun userRegister(user: User, listener: (AuthListener) -> Unit) {
 
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser?.uid.toString()
 
 
-        if(uid != null) {
+        if (uid != null) {
 
 
             auth.createUserWithEmailAndPassword(user.email, user.password)
@@ -73,13 +71,13 @@ class AuthService {
 
                         val docRef = databaseReference.collection("User").document(uid)
 
-                        var userDetail : HashMap<String, String> = HashMap<String, String> ()
+                        var userDetail: HashMap<String, String> = HashMap<String, String>()
 
-                        userDetail.put("FirstName",user.firstName)
-                        userDetail.put("LastName",user.lastName)
-                        userDetail.put("Email",user.email)
-                        userDetail.put("Password",user.password)
-                        userDetail.put("Id",uid)
+                        userDetail.put("FirstName", user.firstName)
+                        userDetail.put("LastName", user.lastName)
+                        userDetail.put("Email", user.email)
+                        userDetail.put("Password", user.password)
+                        userDetail.put("Id", uid)
 
 
                         listener(AuthListener(true, "Register successfully"))
@@ -96,6 +94,22 @@ class AuthService {
 
     fun userNotes(notes: Notes, listener: (AuthListener) -> Unit) {
 
+        val uid = auth.currentUser?.uid.toString()
+        val docRef = databaseReference.collection("User").document(uid).collection("Notes")
+            .document()
+        notes.id = docRef.id
+        docRef.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                listener(AuthListener(true, "note saved"))
+                val noteList = ArrayList<Notes>()
+                noteList.add(notes)
+
+
+            } else {
+                listener(AuthListener(false, "Please enter note"))
+
+            }
+        }
     }
 }
 
