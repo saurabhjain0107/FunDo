@@ -2,8 +2,11 @@ package com.example.fundo.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.fundo.databinding.FragmentNotesBinding
 import com.example.fundo.model.Notes
@@ -17,8 +20,10 @@ class NotesFragment : Fragment() {
     private var auth: FirebaseAuth = Firebase.auth
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
     lateinit var notesViewModel: NotesViewModel
-    lateinit var binding: FragmentNotesBinding
+    lateinit var binding : FragmentNotesBinding
     lateinit var myDBHelper: MyDBHelper
+
+//    ((AppCompatActivity)getActivity()).getSupportActionBar().hide()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,10 +35,10 @@ class NotesFragment : Fragment() {
 
             auth = FirebaseAuth.getInstance()
             val title = binding.title.text.toString()
-            val subtitle = binding.subTitle.text.toString()
+            val subTitle = binding.subTitle.text.toString()
             val note = binding.notes.text.toString()
 
-            var notes = Notes(id = "", title = title, subTitle = subtitle, notes = note)
+            var notes = Notes(id = "", title = title, subTitle = subTitle, notes = note)
 //           notesViewModel.userNotes(notes)
 //            notesViewModel.userNotesStatus.observe(viewLifecycleOwner, Observer {
 //                if(it.status){
@@ -58,7 +63,6 @@ class NotesFragment : Fragment() {
                     if (it.isSuccessful) {
                         val arrayList = ArrayList<Notes>()
                         arrayList.add(notes)
-                        insertDataInSqlLite()
                         Toast.makeText(requireContext(), "note saved", Toast.LENGTH_SHORT).show()
                         val intent = Intent(requireContext(), HomePage::class.java)
                         startActivity(intent)

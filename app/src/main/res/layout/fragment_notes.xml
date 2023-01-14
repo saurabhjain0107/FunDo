@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@color/white"
+    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
     tools:context=".view.NotesFragment">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -39,6 +40,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
