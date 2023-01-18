@@ -9,7 +9,30 @@ class NoteService {
     private var auth: FirebaseAuth = Firebase.auth
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun userNotes(notes: Notes, listener: (AuthListener) -> Unit) {
+    fun getNote(listener: NoteListener) {
+        val note = ArrayList<Notes>()
+        val uid = auth.currentUser?.uid.toString()
+        val docRef = databaseReference.collection("User").document(uid).collection("Notes")
+            .document()
+//        notes.id = docRef.id
+        docRef.get().addOnCompleteListener { document ->
+            if (document.isSuccessful) {
+//             for(var documents: document ){
+//
+//             }
+//                listener(NoteListener(true, "note saved"))
+//
+//
+//            } else {
+//                listener(AuthListener(false, "Please enter note"))
+//
+//            }
+            }
+
+        }
+    }
+
+    fun userNotes(notes: Notes, listener: (NoteListener) -> Unit) {
 
         val uid = auth.currentUser?.uid.toString()
         val docRef = databaseReference.collection("User").document(uid).collection("Notes")
@@ -17,13 +40,13 @@ class NoteService {
         notes.id = docRef.id
         docRef.get().addOnCompleteListener {
             if (it.isSuccessful) {
-                listener(AuthListener(true, "note saved"))
+                listener(NoteListener(true, "note saved"))
                 val noteList = ArrayList<Notes>()
                 noteList.add(notes)
 
 
             } else {
-                listener(AuthListener(false, "Please enter note"))
+                listener(NoteListener(false, "Please enter note"))
 
             }
         }

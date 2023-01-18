@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="@color/white"
+    android:layout_gravity="center"
     android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
     tools:context=".view.NotesFragment">
     <LinearLayout

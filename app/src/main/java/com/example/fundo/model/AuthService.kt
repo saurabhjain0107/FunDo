@@ -50,7 +50,10 @@ class AuthService {
         docRef.get().addOnCompleteListener {
             if (it.isSuccessful) {
 
-                val user = User(it.result.getString("FirstName").toString())
+                val user = User(it.result.getString("FirstName").toString(),it.result.getString("LastName").toString(),
+                    it.result.getString("Email").toString(),
+                it.result.getString("Password").toString(),
+                it.result.getString("Id").toString())
             }
         }
 
@@ -89,26 +92,6 @@ class AuthService {
                         listener(AuthListener(false, "Register Unsuccessful"))
                     }
                 }
-        }
-    }
-
-    fun userNotes(notes: Notes, listener: (AuthListener) -> Unit) {
-
-        val uid = auth.currentUser?.uid.toString()
-        val docRef = databaseReference.collection("User").document(uid).collection("Notes")
-            .document()
-        notes.id = docRef.id
-        docRef.get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                listener(AuthListener(true, "note saved"))
-                val noteList = ArrayList<Notes>()
-                noteList.add(notes)
-
-
-            } else {
-                listener(AuthListener(false, "Please enter note"))
-
-            }
         }
     }
 }

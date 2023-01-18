@@ -8,9 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.fundo.databinding.FragmentNotesBinding
+import com.example.fundo.model.AuthService
+import com.example.fundo.model.NoteService
 import com.example.fundo.model.Notes
+import com.example.fundo.viewmodel.LoginViewModel
+import com.example.fundo.viewmodel.LoginViewModelFactory
 import com.example.fundo.viewmodel.NotesViewModel
+import com.example.fundo.viewmodel.NotesViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,7 +30,6 @@ class NotesFragment : Fragment() {
     lateinit var binding : FragmentNotesBinding
     lateinit var myDBHelper: MyDBHelper
 
-//    ((AppCompatActivity)getActivity()).getSupportActionBar().hide()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,46 +40,28 @@ class NotesFragment : Fragment() {
         binding.addNote.setOnClickListener {
 
             auth = FirebaseAuth.getInstance()
+            notesViewModel = ViewModelProvider(this,NotesViewModelFactory(NoteService())).get(NotesViewModel::class.java)
             val title = binding.title.text.toString()
             val subTitle = binding.subTitle.text.toString()
             val note = binding.notes.text.toString()
 
             var notes = Notes(id = "", title = title, subTitle = subTitle, notes = note)
-//           notesViewModel.userNotes(notes)
-//            notesViewModel.userNotesStatus.observe(viewLifecycleOwner, Observer {
-//                if(it.status){
-//
-//
-//                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
-//                    val intent = Intent(requireContext(), HomePage::class.java)
-//                    startActivity(intent)
-//                }else {
-//
-//                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-//                }
-//            })
-
             if (!note.equals("")) {
+           notesViewModel.userNotes(notes)
+            notesViewModel.userNotesStatus.observe(viewLifecycleOwner, Observer {
+                if(it.status){
+                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), HomePage::class.java)
+                    startActivity(intent)
+                }else {
 
-                val uid = auth.currentUser?.uid.toString()
-                val docRef = databaseReference.collection("User").document(uid).collection("Notes")
-                    .document()
-                notes.id = docRef.id
-                docRef.get().addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val arrayList = ArrayList<Notes>()
-                        arrayList.add(notes)
-                        Toast.makeText(requireContext(), "note saved", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(requireContext(), HomePage::class.java)
-                        startActivity(intent)
-                    }
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
-
-            } else {
+            })
+            }else {
 
                 Toast.makeText(requireContext(), "Please enter note", Toast.LENGTH_SHORT).show()
             }
-//
         }
         binding.dismiss.setOnClickListener {
             val intent = Intent(requireContext(), HomePage::class.java)
@@ -82,8 +70,6 @@ class NotesFragment : Fragment() {
 
         return binding.root
 
-
-//        return inflater.inflate(R.layout.fragment_notes, container, false)
     }
 
     private fun insertDataInSqlLite() {
