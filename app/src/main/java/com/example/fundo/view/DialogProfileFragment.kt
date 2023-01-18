@@ -63,25 +63,15 @@ class DialogProfileFragment : androidx.fragment.app.DialogFragment(){
         }
     }
 
-
     fun readProfileData(){
-
-
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser?.uid!!
-        var user = User()
-
         val docRef = databaseReference.collection("User").document(uid)
-        docRef.get().addOnCompleteListener {
-            if (it.isSuccessful) {
-
-//                user = User(it.result.getString("FirstName").toString(),
-//                    it.result.getString("LastName").toString(),
-//                    it.result.getString("Email").toString())
-                binding.firstname.text =it.result.getString("FirstName").toString()
-                binding.lastname.text = it.result.getString("LastName").toString()
-                binding.email.text = (it.result.getString("Email") as Text).toString()
-
+        docRef.get().addOnSuccessListener {
+            if (it.exists()) {
+                binding.firstname.text =it.getString("FirstName").toString()
+                binding.lastname.text = it.getString("LastName").toString()
+                binding.email.text = (it.getString("Email") as Text).toString()
             }
         }
     }

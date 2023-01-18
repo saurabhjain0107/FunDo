@@ -8,7 +8,7 @@ import com.google.firebase.ktx.Firebase
 class NoteService {
     private var auth: FirebaseAuth = Firebase.auth
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
-
+    val noteList = ArrayList<Notes>()
     fun getNote(listener: NoteListener) {
         val note = ArrayList<Notes>()
         val uid = auth.currentUser?.uid.toString()
@@ -41,7 +41,7 @@ class NoteService {
         docRef.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 listener(NoteListener(true, "note saved"))
-                val noteList = ArrayList<Notes>()
+
                 noteList.add(notes)
 
 

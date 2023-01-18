@@ -1,43 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="340dp"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_View"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
-    android:padding="20dp"
+    app:cardElevation="11dp"
+    tools:menu="@menu/card_menu"
+    android:layout_gravity="center"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
     <TextView
         android:id="@+id/titleCard"
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="40dp"
         android:text="Title"
         android:textStyle="bold"
         android:textSize="14dp"
         android:padding="10dp"/>
-
     <TextView
         android:id="@+id/SubtitleCard"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:text="Subtitle"
         android:textStyle="bold"
         android:textSize="14dp"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:layout_below="@+id/titleCard"/>
 
 
     <TextView
         android:id="@+id/noteCard"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="120dp"
         android:text="Notes"
         android:textStyle="bold"
         android:textSize="14dp"
-        android:padding="10dp"/>
-    </LinearLayout>
+        android:padding="10dp"
+        android:layout_below="@+id/SubtitleCard"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="&#8942;"
+                android:id="@+id/txtOptionMenu"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/titleCard"
+                />
+    </RelativeLayout>
+
+
+
 
 
 </androidx.cardview.widget.CardView>
