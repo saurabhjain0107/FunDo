@@ -40,9 +40,13 @@ class NoteService {
         notes.id = docRef.id
         docRef.get().addOnCompleteListener {
             if (it.isSuccessful) {
-                listener(NoteListener(true, "note saved"))
 
-                noteList.add(notes)
+                var userNote: HashMap<String, String> = HashMap<String, String>()
+                userNote.put("title",notes.title)
+                userNote.put("subTitle",notes.subTitle)
+                userNote.put("notes",notes.notes)
+                listener(NoteListener(true, "note saved"))
+                docRef.set(userNote)
 
 
             } else {

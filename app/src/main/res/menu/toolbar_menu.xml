@@ -4,10 +4,10 @@
 
     <item android:id="@+id/searchNote"
         android:icon="@drawable/ic_baseline_search_24"
-        android:title="Notes"
+        android:title="Search"
         app:showAsAction="always"/>
     <item android:id="@+id/profilePic"
         android:icon="@drawable/ic_baseline_person_pin_24"
-        android:title="Reminders"
+        android:title="Profile"
         app:showAsAction="always"/>
 </menu>

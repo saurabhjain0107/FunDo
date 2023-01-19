@@ -1,5 +1,7 @@
 package com.example.fundo.view
 
+import android.content.DialogInterface.OnClickListener
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import io.grpc.InternalChannelz.id
 
 class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
     private var auth: FirebaseAuth = Firebase.auth
@@ -33,18 +36,21 @@ class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<Recy
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val current = noteList[position]
-        holder.title.text= current.title
-        holder.subTitle.text = current.subTitle
-        holder.note.text= current.notes
+        holder.title.text= noteList[position].title
+        holder.subTitle.text =noteList[position].subTitle
+        holder.note.text= noteList[position].notes
         holder.optionMenu.setOnClickListener {
             val popupMenu: PopupMenu = PopupMenu(it.context,holder.optionMenu)
-            popupMenu.inflate(R.menu.card_menu)
+            popupMenu.menuInflater.inflate(R.menu.card_menu,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when(item.itemId){
-                    R.id.menu_delete ->
+                    R.id.menu_edit -> {
 
-                      deleteNote(current.id)
+                    }
+
+                    R.id.menu_delete ->{
+                                deleteNote(noteList[position].id)
+                            }
                 }
                 true
             })
@@ -54,16 +60,12 @@ class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<Recy
     }
 
     private fun deleteNote(id : String) {
-        val uid = auth.currentUser?.uid.toString()
-        val docRef = databaseReference.collection("User").document(uid).collection("Notes").document(id)
-        docRef.delete()
-    }
+        val uid = auth.currentUser?.uid
+        databaseReference.document(uid!!).collection("Notes").document(id).delete().addOnSuccessListener {
 
+       }
+    }
     override fun getItemCount(): Int {
        return noteList.size
     }
 }
-
-
-
-

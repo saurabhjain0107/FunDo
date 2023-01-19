@@ -17,6 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#E8D9D9"
             >
     <TextView
         android:id="@+id/titleCard"
@@ -29,7 +30,7 @@
     <TextView
         android:id="@+id/SubtitleCard"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:text="Subtitle"
         android:textStyle="bold"
         android:textSize="14dp"
@@ -40,7 +41,7 @@
     <TextView
         android:id="@+id/noteCard"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:text="Notes"
         android:textStyle="bold"
         android:textSize="14dp"

@@ -47,11 +47,11 @@ class HomePage : AppCompatActivity() {
         setContentView(binding.root)
         setUpView()
         binding.floatingBtn.setOnClickListener {
-            val dialog = Dialog(this)
-            dialog.setContentView(R.layout.fragment_dialog_profile)
-            dialog.show()
-//            val note = NotesFragment()
-//            supportFragmentManager.beginTransaction().replace(R.id.drawerLayout, note).commit()
+//            val dialog = Dialog(this)
+//            dialog.setContentView(R.layout.fragment_dialog_profile)
+//            dialog.show()
+            val note = NotesFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.drawerLayout, note).commit()
         }
 
         recyclerview = findViewById<RecyclerView>(R.id.recyclerNote)
@@ -83,9 +83,9 @@ class HomePage : AppCompatActivity() {
 //                    dialog.setContentView(R.layout.fragment_dialog_profile)
 //                    dialog.show()
                 }
-//                R.id.searchNote -> {
-//
-//                }
+                R.id.searchNote -> {
+
+                }
 
             }
         }
