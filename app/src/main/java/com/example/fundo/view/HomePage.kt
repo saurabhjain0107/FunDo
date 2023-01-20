@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.app.DownloadManager.Query
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -79,15 +80,16 @@ class HomePage : AppCompatActivity() {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)){
             when(item.itemId){
                 R.id.profilePic ->{
-//                    val dialog = Dialog(this)
-//                    dialog.setContentView(R.layout.fragment_dialog_profile)
-//                    dialog.show()
+                    val dialog = Dialog(this)
+                    dialog.setContentView(R.layout.fragment_dialog_profile)
+                    dialog.show()
+                    true
                 }
                 R.id.searchNote -> {
-
+                    true
                 }
                 R.id.edit_Notes ->{
-
+                    true
                 }
 
             }
@@ -97,27 +99,41 @@ class HomePage : AppCompatActivity() {
     }
 
 
-    private fun noteData(): Notes {
-        val notes = Notes()
+    private fun noteData() {
+        var notes = Notes()
 
         val tempArrayList = arrayListOf<Notes>()
         val uid = auth.currentUser?.uid.toString()
         val docRef = databaseReference.collection("User").document(uid).collection("Notes")
-
-        docRef.get().addOnSuccessListener {
-            if (!it.isEmpty){
-                for(data in it.documents){
-                    val note: Notes? = data.toObject(Notes::class.java)
-                    if(note != null){
-                        noteList.add(note)
-                    }
+        docRef.get().addOnCompleteListener {
+            if(it.isSuccessful){
+                for (document in it.result){
+                    notes = Notes(
+                        document["id"].toString(),
+                        document["title"].toString(),
+                        document["subTitle"].toString(),
+                        document["notes"].toString(),
+                    )
+                    noteList.add(notes)
+                    val adapter = RecyclerNoteAdapter(noteList)
+                    recyclerview.adapter = adapter
                 }
-                tempArrayList.addAll(noteList)
-                val adapter = RecyclerNoteAdapter(noteList)
-                recyclerview.adapter = adapter
             }
         }
-        return notes
+//        docRef.get().addOnSuccessListener {
+//            if (!it.isEmpty){
+//                for(data in it.documents){
+//                    val note: Notes? = data.toObject(Notes::class.java)
+//                    if(note != null){
+//                        noteList.add(note)
+//                        Log.d("Note","$note")
+//                    }
+//                }
+//                tempArrayList.addAll(noteList)
+//                val adapter = RecyclerNoteAdapter(noteList)
+//                recyclerview.adapter = adapter
+//       ikhggdf     }
+// szcxdv        }
     }
 }
 

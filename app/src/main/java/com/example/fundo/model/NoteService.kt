@@ -45,6 +45,7 @@ class NoteService {
                 userNote.put("title",notes.title)
                 userNote.put("subTitle",notes.subTitle)
                 userNote.put("notes",notes.notes)
+                userNote.put("id",notes.id)
                 listener(NoteListener(true, "note saved"))
                 docRef.set(userNote)
 
