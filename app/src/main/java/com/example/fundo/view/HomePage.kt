@@ -86,6 +86,9 @@ class HomePage : AppCompatActivity() {
                 R.id.searchNote -> {
 
                 }
+                R.id.edit_Notes ->{
+
+                }
 
             }
         }
