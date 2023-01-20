@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/searchNote"
+    <item android:id="@+id/tool_searchNote"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Search"
         app:showAsAction="always"/>
-    <item android:id="@+id/profilePic"
+    <item android:id="@+id/tool_profilePic"
         android:icon="@drawable/ic_baseline_person_pin_24"
         android:title="Profile"
         app:showAsAction="always"/>

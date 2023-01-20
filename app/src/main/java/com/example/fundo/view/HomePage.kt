@@ -1,7 +1,6 @@
 package com.example.fundo.view
 
 import android.app.Dialog
-import android.app.DownloadManager.Query
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
@@ -78,27 +78,26 @@ class HomePage : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+
             when(item.itemId){
                 R.id.profilePic ->{
                     val dialog = Dialog(this)
                     dialog.setContentView(R.layout.fragment_dialog_profile)
                     dialog.show()
-                    true
                 }
-                R.id.searchNote -> {
-                    true
+                R.id.search -> {
+                 fragmentChange()
                 }
-                R.id.edit_Notes ->{
-                    true
-                }
-
+//                R.id.delete ->{
+//                    val dialog = Dialog(this)
+//                    dialog.setContentView(R.layout.fragment_dialog_profile)
+//                    dialog.show()
+//                    true
+//                }
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
-
-
     private fun noteData() {
         var notes = Notes()
 
@@ -120,20 +119,10 @@ class HomePage : AppCompatActivity() {
                 }
             }
         }
-//        docRef.get().addOnSuccessListener {
-//            if (!it.isEmpty){
-//                for(data in it.documents){
-//                    val note: Notes? = data.toObject(Notes::class.java)
-//                    if(note != null){
-//                        noteList.add(note)
-//                        Log.d("Note","$note")
-//                    }
-//                }
-//                tempArrayList.addAll(noteList)
-//                val adapter = RecyclerNoteAdapter(noteList)
-//                recyclerview.adapter = adapter
-//       ikhggdf     }
-// szcxdv        }
+    }
+    fun fragmentChange(){
+        val note = NotesFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.drawerLayout, note).commit()
     }
 }
 

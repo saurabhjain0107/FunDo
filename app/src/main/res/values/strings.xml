@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FunDo</string>
+    <string name="app_name">Fun Do</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
@@ -29,4 +29,7 @@
     <string name="open">Open </string>
     <string name="close">Close </string>
     <string name="title">Title</string>
+    <string name="search">Search</string>
+    <string name="reminders">Reminders</string>
+    <string name="gridview">GridView</string>
 </resources>

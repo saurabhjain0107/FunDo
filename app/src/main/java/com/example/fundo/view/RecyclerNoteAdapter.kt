@@ -1,28 +1,23 @@
 package com.example.fundo.view
 
-import android.content.Context
-import android.content.DialogInterface.OnClickListener
-import android.content.Intent
+import android.app.PendingIntent.getActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fundo.R
 import com.example.fundo.model.Notes
-import com.google.android.gms.dynamic.SupportFragmentWrapper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
-class RecyclerNoteAdapter(val noteList: List<Notes>,context : Context) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
+
+class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
     private var auth: FirebaseAuth = Firebase.auth
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -55,8 +50,8 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,context : Context) : Recycle
                     }
                     R.id.menu_delete ->{
                                 deleteNote(noteList[position].id)
-//                        val intent = Intent(context as AppCompatActivity, HomePage::class.java)
-//                      startActivity(intent)
+//                        val intent = Intent(this as AppCompatActivity, HomePage::class.java)
+//                         startActivity(intent)
                     }
                 }
                 true

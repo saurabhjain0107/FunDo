@@ -4,23 +4,19 @@
 
 <group android:checkableBehavior="single">
 
+    <item android:id="@+id/search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/profilePic"
         android:icon="@drawable/ic_baseline_person_pin_24"
-        android:title="Reminders"
+        android:title="@string/reminders"
         app:showAsAction="always"/>
-<!--<item android:id="@+id/profile"-->
-<!--    android:icon="@drawable/ic_baseline_person_pin_24"-->
-<!--    android:title="profile"-->
-<!--    app:showAsAction="always"/>-->
-<!--    <item android:id="@+id/side_note"-->
-<!--        android:icon="@drawable/ic_baseline_note_24"-->
-<!--        android:title="Notes"/>-->
-<!--    <item android:id="@+id/Reminders"-->
-<!--        android:icon="@drawable/ic_baseline_volume_up_24"-->
-<!--        android:title="Reminders"/>-->
-    <item android:id="@+id/delete"
-        android:icon="@drawable/ic_baseline_delete_24"
-        android:title="Delete"/>
+
+    <item android:id="@+id/GridLinearTogglebtn"
+        android:icon="@drawable/ic_baseline_grid_view_24"
+        android:title="@string/gridview"
+        app:showAsAction="always"/>
 
 </group>
 </menu>

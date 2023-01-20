@@ -65,34 +65,30 @@ class AuthService {
         val uid = auth.currentUser?.uid.toString()
 
 
-        if (uid != null) {
+        auth.createUserWithEmailAndPassword(user.email, user.password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+
+                    val docRef = databaseReference.collection("User").document(uid)
+
+                    var userDetail: HashMap<String, String> = HashMap<String, String>()
+
+                    userDetail.put("FirstName", user.firstName)
+                    userDetail.put("LastName", user.lastName)
+                    userDetail.put("Email", user.email)
+                    userDetail.put("Password", user.password)
+                    userDetail.put("Id", uid)
 
 
-            auth.createUserWithEmailAndPassword(user.email, user.password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-
-                        val docRef = databaseReference.collection("User").document(uid)
-
-                        var userDetail: HashMap<String, String> = HashMap<String, String>()
-
-                        userDetail.put("FirstName", user.firstName)
-                        userDetail.put("LastName", user.lastName)
-                        userDetail.put("Email", user.email)
-                        userDetail.put("Password", user.password)
-                        userDetail.put("Id", uid)
+                    listener(AuthListener(true, "Register successfully"))
+                    docRef.set(userDetail)
 
 
-                        listener(AuthListener(true, "Register successfully"))
-                        docRef.set(userDetail)
+                } else {
 
-
-                    } else {
-
-                        listener(AuthListener(false, "Register Unsuccessful"))
-                    }
+                    listener(AuthListener(false, "Register Unsuccessful"))
                 }
-        }
+            }
     }
 }
 
