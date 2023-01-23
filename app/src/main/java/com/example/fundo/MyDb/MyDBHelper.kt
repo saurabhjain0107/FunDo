@@ -1,14 +1,13 @@
-package com.example.fundo.view
+package com.example.fundo.MyDb
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import com.example.fundo.model.AuthListener
 import com.example.fundo.model.Notes
 
-class MyDBHelper(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null, DATABASE_VERSION) {
+class MyDBHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null, DATABASE_VERSION) {
 
     private val TABLE_NAME = "Note_Table"
     private val TABLE_TITLE = "Title"
@@ -36,12 +35,12 @@ class MyDBHelper(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,
         private const val DATABASE_VERSION = 1
 
     }
-    fun sqlInsertData(title :String = "", subTitle : String = "", notes : String = ""):Boolean{
+    fun sqlInsertData(note: Notes):Boolean{
         val db : SQLiteDatabase = this.writableDatabase
         val constentValues = ContentValues()
-        constentValues.put(TABLE_TITLE,title)
-        constentValues.put(TABLE_SUBTITLE,subTitle)
-        constentValues.put(TABLE_NOTE,notes)
+        constentValues.put(TABLE_TITLE,note.title)
+        constentValues.put(TABLE_SUBTITLE,note.subTitle)
+        constentValues.put(TABLE_NOTE,note.notes)
         val insert_data = db.insert(TABLE_NAME,null, constentValues)
         db.close()
         return !insert_data.equals(-1)

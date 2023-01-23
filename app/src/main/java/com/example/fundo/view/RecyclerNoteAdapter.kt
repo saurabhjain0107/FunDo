@@ -1,6 +1,8 @@
 package com.example.fundo.view
 
-import android.app.PendingIntent.getActivity
+import android.app.FragmentManager
+import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fundo.R
+
 import com.example.fundo.model.Notes
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -17,20 +21,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 
-class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
+class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
+
     private var auth: FirebaseAuth = Firebase.auth
+
+
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val title:TextView = itemView.findViewById(R.id.titleCard)
         val subTitle:TextView = itemView.findViewById(R.id.SubtitleCard)
         val note:TextView = itemView.findViewById(R.id.noteCard)
         val  optionMenu: TextView = itemView.findViewById(R.id.txtOptionMenu)
+//        val edit : MenuItem = optionMenu.findViewById(R.id.menu_edit)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.notes_card, parent, false)
         return ViewHolder(view)
@@ -40,18 +46,38 @@ class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<Recy
         holder.title.text= noteList[position].title
         holder.subTitle.text =noteList[position].subTitle
         holder.note.text= noteList[position].notes
+
         holder.optionMenu.setOnClickListener {
             val popupMenu: PopupMenu = PopupMenu(it.context,holder.optionMenu)
             popupMenu.menuInflater.inflate(R.menu.card_menu,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when(item.itemId){
-                    R.id.menu_edit -> {
+
+                    R.id.menu_edit ->{
+
+                        val bundle = Bundle()
+                        bundle.putString("noteId",noteList[position].id)
+                        bundle.putString("title",noteList[position].title)
+                        bundle.putString("subTitle",noteList[position].subTitle)
+                        bundle.putString("notes",noteList[position].notes)
+                        val editFrag = EditNoteFragment()
+                        editFrag.arguments = bundle
+                        val transaction =
+                            (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                        transaction.replace(R.id.home_container, editFrag)
+                        transaction.addToBackStack(null)
+                        transaction.commit()
+//                        val manager : FragmentManager =
+//                        val transaction: android.app.FragmentTransaction? = manager.beginTransaction()
+//                        transaction?.replace(R.id.drawerLayout,editFrag).commit()
+//                        val activity: AppCompatActivity = context as AppCompatActivity
+
+//                        fragmen.beginTransaction().replace(R.id.container,editFrag).commit()
 
                     }
                     R.id.menu_delete ->{
                                 deleteNote(noteList[position].id)
-//                        val intent = Intent(this as AppCompatActivity, HomePage::class.java)
-//                         startActivity(intent)
+                        notifyDataSetChanged()
                     }
                 }
                 true
@@ -61,9 +87,14 @@ class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<Recy
 
     }
 
+    private fun upDateNote() {
+//        val intent = Intent(, HomePage::class.java)
+//        return startActivity(intent)
+    }
+
     private fun deleteNote(id : String) {
         val uid = auth.currentUser?.uid.toString()
-        databaseReference.collection("User").document(uid!!)
+        databaseReference.collection("User").document(uid)
             .collection("Notes").document(id).delete().addOnCompleteListener{
         if(it.isSuccessful){
             Log.d("Delete note","$uid, $id")
@@ -75,4 +106,10 @@ class RecyclerNoteAdapter(val noteList: List<Notes>) : RecyclerView.Adapter<Recy
     override fun getItemCount(): Int {
        return noteList.size
     }
+    companion object {
+
+    }
+
 }
+
+
