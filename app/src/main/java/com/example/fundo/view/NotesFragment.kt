@@ -49,7 +49,7 @@ class NotesFragment : Fragment() {
                 if(it.status){
                     Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), HomePage::class.java)
-//                    startActivity(intent)
+                    startActivity(intent)
                 }else {
 
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
