@@ -9,9 +9,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.fundo.MyDb.MyDBHelper
 import com.example.fundo.databinding.FragmentEditNoteBinding
 import com.example.fundo.model.NoteListener
+import com.example.fundo.model.NoteService
 import com.example.fundo.model.Notes
+import com.example.fundo.viewmodel.NotesViewModel
+import com.example.fundo.viewmodel.NotesViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -20,10 +26,8 @@ import com.google.firebase.ktx.Firebase
 
 
 class EditNoteFragment : Fragment() {
-    private var auth: FirebaseAuth = Firebase.auth
-    private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
-    val noteList = ArrayList<Notes>()
-
+    lateinit var notesViewModel: NotesViewModel
+//    val db = MyDBHelper(requireContext())
 
     lateinit var binding: FragmentEditNoteBinding
     override fun onCreateView(
@@ -36,7 +40,7 @@ class EditNoteFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         val userId = FirebaseAuth.getInstance().currentUser
         val bundle: Bundle? = arguments
-        val noteId = bundle?.getString("noteId")
+        val noteId = bundle?.getString("noteId").toString()
         val title = bundle?.getString("title")
         val subTitle = bundle?.getString("subTitle")
         val notes = bundle?.getString("notes")
@@ -52,30 +56,23 @@ class EditNoteFragment : Fragment() {
             startActivity(intent)
         }
         binding.editUpdateNote.setOnClickListener {
-            updatNote(noteId.toString())
-            val intent = Intent(requireContext(), HomePage::class.java)
-            startActivity(intent)
+            notesViewModel = ViewModelProvider(this,NotesViewModelFactory(NoteService(MyDBHelper(requireContext())))).get(NotesViewModel::class.java)
+            val newTitle  = binding.editTitle.text.toString()
+            val newsubTitle  = binding.editSubTitle.text.toString()
+            val newNote  = binding.editNotes.text.toString()
+            var notes = Notes(id = noteId, title = newTitle, subTitle = newsubTitle, notes = newNote)
+            notesViewModel.updateNote(notes)
+            notesViewModel.userNotesStatus.observe(viewLifecycleOwner, Observer{
+                if(it.status){
+                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), HomePage::class.java)
+                    startActivity(intent)
+                }else {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+            })
         }
         return binding.root
     }
-
-    private fun updatNote(noteId : String) {
-        val newTitle  = binding.editTitle.text.toString()
-        val newsubTitle  = binding.editSubTitle.text.toString()
-        val newNote  = binding.editNotes.text.toString()
-
-        val uid = auth.currentUser?.uid.toString()
-        val docRef = databaseReference.collection("User").document(uid).collection("Notes").document(noteId)
-        var updateNote: HashMap<String, Any> = HashMap<String, Any>()
-        updateNote.put("title",newTitle)
-        updateNote.put("subTitle",newsubTitle)
-        updateNote.put("notes",newNote)
-        updateNote.put("id",noteId)
-        docRef.set(updateNote).addOnSuccessListener {
-            Toast.makeText(requireContext(), "Note Updated", Toast.LENGTH_SHORT).show()
-        }
-    }
-
 }
-
 

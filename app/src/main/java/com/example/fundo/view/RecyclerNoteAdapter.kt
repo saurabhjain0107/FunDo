@@ -24,16 +24,12 @@ import com.google.firebase.ktx.Firebase
 class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : RecyclerView.Adapter<RecyclerNoteAdapter.ViewHolder>() {
 
     private var auth: FirebaseAuth = Firebase.auth
-
-
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title:TextView = itemView.findViewById(R.id.titleCard)
         val subTitle:TextView = itemView.findViewById(R.id.SubtitleCard)
         val note:TextView = itemView.findViewById(R.id.noteCard)
         val  optionMenu: TextView = itemView.findViewById(R.id.txtOptionMenu)
-//        val edit : MenuItem = optionMenu.findViewById(R.id.menu_edit)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -67,13 +63,6 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : Recy
                         transaction.replace(R.id.home_container, editFrag)
                         transaction.addToBackStack(null)
                         transaction.commit()
-//                        val manager : FragmentManager =
-//                        val transaction: android.app.FragmentTransaction? = manager.beginTransaction()
-//                        transaction?.replace(R.id.drawerLayout,editFrag).commit()
-//                        val activity: AppCompatActivity = context as AppCompatActivity
-
-//                        fragmen.beginTransaction().replace(R.id.container,editFrag).commit()
-
                     }
                     R.id.menu_delete ->{
                                 deleteNote(noteList[position].id)
@@ -86,12 +75,6 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : Recy
         }
 
     }
-
-    private fun upDateNote() {
-//        val intent = Intent(, HomePage::class.java)
-//        return startActivity(intent)
-    }
-
     private fun deleteNote(id : String) {
         val uid = auth.currentUser?.uid.toString()
         databaseReference.collection("User").document(uid)
@@ -106,10 +89,6 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : Recy
     override fun getItemCount(): Int {
        return noteList.size
     }
-    companion object {
-
-    }
-
 }
 
 

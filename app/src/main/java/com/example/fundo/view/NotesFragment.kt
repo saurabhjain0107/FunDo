@@ -25,23 +25,17 @@ class NotesFragment : Fragment() {
     private var databaseReference: FirebaseFirestore = FirebaseFirestore.getInstance()
     lateinit var notesViewModel: NotesViewModel
     lateinit var binding : FragmentNotesBinding
-    lateinit var myDBHelper: MyDBHelper
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentNotesBinding.inflate(layoutInflater)
         binding.addNote.setOnClickListener {
-
             auth = FirebaseAuth.getInstance()
-            notesViewModel = ViewModelProvider(this,NotesViewModelFactory(NoteService())).get(NotesViewModel::class.java)
+            notesViewModel = ViewModelProvider(this,NotesViewModelFactory(NoteService(MyDBHelper(requireContext())))).get(NotesViewModel::class.java)
             val title = binding.title.text.toString()
             val subTitle = binding.subTitle.text.toString()
             val note = binding.notes.text.toString()
-
             var notes = Notes(id = "", title = title, subTitle = subTitle, notes = note)
             if (!note.equals("")) {
            notesViewModel.userNotes(notes)
@@ -51,12 +45,10 @@ class NotesFragment : Fragment() {
                     val intent = Intent(requireContext(), HomePage::class.java)
                     startActivity(intent)
                 }else {
-
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             })
             }else {
-
                 Toast.makeText(requireContext(), "Please enter note", Toast.LENGTH_SHORT).show()
             }
         }
@@ -64,23 +56,6 @@ class NotesFragment : Fragment() {
             val intent = Intent(requireContext(), HomePage::class.java)
             startActivity(intent)
         }
-
         return binding.root
-
     }
-
-//    private fun insertDataInSqlLite() {
-//
-//        val title = binding.title.text.toString()
-//        val subtitle = binding.subTitle.text.toString()
-//        val note = binding.notes.text.toString()
-//
-//        val result: Boolean = myDBHelper.sqlInsertData(title,subtitle,note)
-//        when{
-//            result-> Toast.makeText(requireContext(),"Data Inserted Successfully...",Toast.LENGTH_LONG).show()
-//            else -> Toast.makeText(requireContext(),"Failed to insert data...",Toast.LENGTH_LONG).show()
-//        }
-//    }
-
-
 }

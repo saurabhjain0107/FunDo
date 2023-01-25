@@ -18,6 +18,13 @@ class NotesViewModel(private val noteService: NoteService) : ViewModel() {
             }
         }
     }
+    fun updateNote(notes : Notes){
+        noteService.updateNote(notes){
+            if(it.status){
+                _UserNotesStatus.value = it
+            }
+        }
+    }
 
 
 }
