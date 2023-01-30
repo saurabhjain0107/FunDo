@@ -1,6 +1,5 @@
 package com.example.fundo.model
 
-import android.widget.Toast
 import com.example.fundo.MyDb.MyDBHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -25,7 +24,6 @@ class NoteService(val dbHelper : MyDBHelper){
                 userNote.put("notes",notes.notes)
                 userNote.put("id",notes.id)
                 listener(NoteListener(true, "note saved"))
-                docRef.set(userNote)
                 dbHelper.sqlInsertData(notes,listener)
             } else {
                 listener(NoteListener(false, "Please enter note"))
@@ -42,8 +40,10 @@ class NoteService(val dbHelper : MyDBHelper){
         updateNote.put("notes",note.notes)
         updateNote.put("id",note.id)
         docRef.set(updateNote).addOnSuccessListener {
-            listener(NoteListener(true, "note updated"))
             dbHelper.updateNote(note,listener)
+            listener(NoteListener(true, "note updated"))
+
+
         }
     }
 }

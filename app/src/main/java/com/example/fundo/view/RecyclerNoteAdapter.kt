@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fundo.MyDb.MyDBHelper
 import com.example.fundo.R
 
 import com.example.fundo.model.Notes
@@ -80,6 +81,8 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : Recy
         databaseReference.collection("User").document(uid)
             .collection("Notes").document(id).delete().addOnCompleteListener{
         if(it.isSuccessful){
+            val db = MyDBHelper(context)
+            db.deleteNoteFromSql(id)
             Log.d("Delete note","$uid, $id")
         }else {
             Log.d("Delete note failed","$uid, $id")

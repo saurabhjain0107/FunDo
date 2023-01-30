@@ -6,7 +6,6 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import android.provider.BaseColumns._ID
 import androidx.core.content.contentValuesOf
 import com.example.fundo.model.NoteListener
 import com.example.fundo.model.Notes
@@ -68,28 +67,26 @@ class MyDBHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null
         curser.close()
     }
 
-    fun updateNote(note:Notes,listener: (NoteListener) -> Unit) {
+    fun updateNote(note: Notes, listener: (NoteListener) -> Unit) {
 
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(TABLE_TITLE,note.title)
         contentValues.put(TABLE_SUBTITLE,note.subTitle)
         contentValues.put(TABLE_NOTE,note.notes)
-        contentValues.put(FIREBASE_ID,note.id)
-        db.update(TABLE_NAME,contentValues, "$FIREBASE_ID = ?",null)
+//        contentValues.put(FIREBASE_ID,note.id)
 
+        val insert_data = db.update(TABLE_NAME,contentValues, "$FIREBASE_ID = \"${note.id}\"",null)
+        if(insert_data>0){
+            listener(NoteListener(true,"Data updated successfully"))
+        }else {
+            listener(NoteListener(true, "Data updated failed"))
+        }
+    //        db.close()
     }
-
-//
-//    fun updateNote(title : String,subTitle : String,note : String,id: String): Boolean {
-//        val db = this.writableDatabase
-//        val contentValues = ContentValues()
-//        contentValues.put("TABLE_TITLE",title)
-//        contentValues.put("TABLE_SUBTITLE",subTitle)
-//        contentValues.put("TABLE_NOTE",note)
-//        contentValues.put("_ID",id)
-//        db.update(TABLE_NAME,contentValues, "$_ID = ?",null)
-//        return true
-//    }
-
+    fun deleteNoteFromSql(noteId : String){
+        val db = this.writableDatabase
+        db.delete(TABLE_NAME, " $FIREBASE_ID =  \"${noteId}\"",null)
+//        db.close()
+    }
 }
