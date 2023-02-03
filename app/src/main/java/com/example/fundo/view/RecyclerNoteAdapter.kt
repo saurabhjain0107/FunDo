@@ -1,5 +1,6 @@
 package com.example.fundo.view
 
+import android.annotation.SuppressLint
 import android.app.FragmentManager
 import android.content.Context
 import android.os.Bundle
@@ -39,6 +40,7 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : Recy
         return ViewHolder(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text= noteList[position].title
         holder.subTitle.text =noteList[position].subTitle
@@ -49,6 +51,17 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : Recy
             popupMenu.menuInflater.inflate(R.menu.card_menu,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when(item.itemId){
+
+                    R.id.Archive -> {
+
+                        val transaction =
+                            (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                        transaction.replace(R.id.home_container, ArchiveFragment())
+                        transaction.addToBackStack(null)
+                        transaction.commit()
+
+
+                    }
 
                     R.id.menu_edit ->{
 
@@ -69,6 +82,13 @@ class RecyclerNoteAdapter(val noteList: List<Notes>,val context: Context) : Recy
                                 deleteNote(noteList[position].id)
                         notifyDataSetChanged()
                     }
+                    R.id.Reminder ->{
+                        val transaction =
+                            (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                        transaction.replace(R.id.home_container, AlarmFragment())
+                        transaction.commit()
+                    }
+
                 }
                 true
             })

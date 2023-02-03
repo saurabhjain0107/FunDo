@@ -32,4 +32,5 @@
     <string name="search">Search</string>
     <string name="reminders">Reminders</string>
     <string name="gridview">GridView</string>
+    <string name="fun_do">Fun Do</string>
 </resources>

@@ -30,27 +30,42 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNotesBinding.inflate(layoutInflater)
+
+//        val connectionManager : Any = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//        val activeNetwork: NetworkInfo = connectionManager as NetworkInfo
+//        val isConnected : Boolean = activeNetwork.isConnectedOrConnecting == true
+
+
         binding.addNote.setOnClickListener {
-            auth = FirebaseAuth.getInstance()
-            notesViewModel = ViewModelProvider(this,NotesViewModelFactory(NoteService(MyDBHelper(requireContext())))).get(NotesViewModel::class.java)
-            val title = binding.title.text.toString()
-            val subTitle = binding.subTitle.text.toString()
-            val note = binding.notes.text.toString()
-            var notes = Notes(id = "", title = title, subTitle = subTitle, notes = note)
-            if (!note.equals("")) {
-           notesViewModel.userNotes(notes)
-            notesViewModel.userNotesStatus.observe(viewLifecycleOwner, Observer {
-                if(it.status){
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
-                    val intent = Intent(requireContext(), HomePage::class.java)
-                    startActivity(intent)
-                }else {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+//            if (isConnected) {
+                auth = FirebaseAuth.getInstance()
+                notesViewModel = ViewModelProvider(
+                    this,
+                    NotesViewModelFactory(NoteService(MyDBHelper(requireContext())))
+                ).get(NotesViewModel::class.java)
+                val title = binding.title.text.toString()
+                val subTitle = binding.subTitle.text.toString()
+                val note = binding.notes.text.toString()
+                var notes = Notes(id = "", title = title, subTitle = subTitle, notes = note)
+                if (!note.equals("")) {
+                    notesViewModel.userNotes(notes)
+                    notesViewModel.userNotesStatus.observe(viewLifecycleOwner, Observer {
+                        if (it.status) {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                            val intent = Intent(requireContext(), HomePage::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                } else {
+                    Toast.makeText(requireContext(), "Please enter note", Toast.LENGTH_SHORT).show()
                 }
-            })
-            }else {
-                Toast.makeText(requireContext(), "Please enter note", Toast.LENGTH_SHORT).show()
-            }
+//            }else{
+//                val db = MyDBHelper(requireContext())
+//
+//
+//            }
         }
         binding.dismiss.setOnClickListener {
             val intent = Intent(requireContext(), HomePage::class.java)

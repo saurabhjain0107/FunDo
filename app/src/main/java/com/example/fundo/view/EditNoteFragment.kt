@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.fundo.MyDb.MyDBHelper
+import com.example.fundo.R
 import com.example.fundo.databinding.FragmentEditNoteBinding
 import com.example.fundo.model.NoteListener
 import com.example.fundo.model.NoteService
@@ -28,6 +29,7 @@ import com.google.firebase.ktx.Firebase
 class EditNoteFragment : Fragment() {
     lateinit var notesViewModel: NotesViewModel
 //    val db = MyDBHelper(requireContext())
+
 
     lateinit var binding: FragmentEditNoteBinding
     override fun onCreateView(
@@ -56,7 +58,7 @@ class EditNoteFragment : Fragment() {
             startActivity(intent)
         }
         binding.editUpdateNote.setOnClickListener {
-            notesViewModel = ViewModelProvider(this,NotesViewModelFactory(NoteService(MyDBHelper(requireContext())))).get(NotesViewModel::class.java)
+            notesViewModel = ViewModelProvider(this,NotesViewModelFactory(NoteService((MyDBHelper(requireContext()))))).get(NotesViewModel::class.java)
             val newTitle  = binding.editTitle.text.toString()
             val newsubTitle  = binding.editSubTitle.text.toString()
             val newNote  = binding.editNotes.text.toString()

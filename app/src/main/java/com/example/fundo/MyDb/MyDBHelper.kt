@@ -10,7 +10,7 @@ import androidx.core.content.contentValuesOf
 import com.example.fundo.model.NoteListener
 import com.example.fundo.model.Notes
 
-class MyDBHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null, DATABASE_VERSION) {
+class MyDBHelper(val context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null, DATABASE_VERSION) {
 
     private val TABLE_NAME = "Note"
     private val TABLE_TITLE = "Title"
